@@ -1,4 +1,15 @@
-.App {
+html {
   font-family: sans-serif;
-  text-align: center;
+  font-size: 12px;
+}
+
+body {
+  margin: 0;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  overflow-x: hidden;
 }

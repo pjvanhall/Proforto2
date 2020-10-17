@@ -1,7 +1,7 @@
 import * as React from "react";
 import { render } from "react-dom";
-
-import App from "./App";
+import "./styles.css";
+import { AlbumsContainer } from "./Albums/AlbumsContainer";
 
 const rootElement = document.getElementById("root");
-render(<App />, rootElement);
+render(<AlbumsContainer />, rootElement);
