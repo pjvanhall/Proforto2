@@ -55,26 +55,33 @@ const useTableStyles = makeStyles((theme) => ({
 const Row = ({ index, style, data: { columns, items, classes } }) => {
   const album = items[index];
 
-  return (
+  return album ? (
     <TableRow component="div" className={classes.row} style={style}>
       {columns.map((column, index) => {
         return (
           <TableCell component="div" key={index} className={classes.cell}>
             {column.type === "image" && (
-              <img src={album["im:image"][0].label} />
+              <img alt="" src={album["im:image"][0].label} />
             )}
-            {column.type === "string" && album?.[column.dataKey]?.label}
-            {column.type === "number" && album?.[column.dataKey]?.label}
-            {column.type === "link" && (
-              <a href={album?.[column.dataKey]?.attributes?.href}>
-                {album?.[column.dataKey]?.label}
-              </a>
-            )}
+            {column.type === "string" && album[column.dataKey]?.label}
+            {column.type === "number" && album[column.dataKey]?.label}
+            {column.type === "link" &&
+              (album[column.dataKey].attributes?.href ? (
+                <a
+                  href={album[column.dataKey].attributes.href}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  {album[column.dataKey].label}
+                </a>
+              ) : (
+                album[column.dataKey].label
+              ))}
           </TableCell>
         );
       })}
     </TableRow>
-  );
+  ) : null;
 };
 
 const Columns = ({ classes }) => {
