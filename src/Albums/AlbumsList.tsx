@@ -11,15 +11,23 @@ import TableRow from "@material-ui/core/TableRow";
 const columns = [
   {
     label: "Name",
-    dataKey: "im:name"
+    dataKey: "im:name",
+    type: "string"
   },
   {
     label: "Count",
-    dataKey: "im:itemCount"
+    dataKey: "im:itemCount",
+    type: "number"
   },
   {
     label: "Price",
-    dataKey: "im:price"
+    dataKey: "im:price",
+    type: "string"
+  },
+  {
+    label: "Image",
+    dataKey: "im:image",
+    type: "image"
   }
 ];
 
@@ -46,7 +54,11 @@ const Row = ({ index, style, data: { columns, items, classes } }) => {
       {columns.map((column, index) => {
         return (
           <TableCell component="div" key={index} className={classes.cell}>
-            {album?.[column.dataKey]?.label}
+            {column.type === "image" ? (
+              <img src={album["im:image"][0].label} />
+            ) : (
+              album?.[column.dataKey]?.label
+            )}
           </TableCell>
         );
       })}
@@ -66,12 +78,17 @@ const Columns = ({ classes }) => {
   );
 };
 
-const getItemHeight = (index) => {
-  console.log(index);
-  return 50;
+const getItemHeight = (index: number) => {
+  return 75;
 };
 
-export const AlbumsList = ({ albums }) => {
+type Album = {
+  Name: string;
+};
+
+type AlbumsListProps = { albums: [Album] };
+
+export const AlbumsList = ({ albums }: AlbumsListProps) => {
   const classes = useTableStyles();
   const itemData = {
     columns,
@@ -86,25 +103,27 @@ export const AlbumsList = ({ albums }) => {
       stickyHeader
       aria-label="albums table"
     >
-      <TableHead component="div">
-        <Columns classes={classes} />
-      </TableHead>
-      <TableBody component="div">
-        <AutoSizer>
-          {({ height, width }) => (
-            <List
-              className={classes.list}
-              height={height}
-              width={width}
-              itemCount={albums.length}
-              itemSize={getItemHeight}
-              itemData={itemData}
-            >
-              {Row}
-            </List>
-          )}
-        </AutoSizer>
-      </TableBody>
+      <AutoSizer>
+        {({ height, width }) => (
+          <div>
+            <TableHead component="div">
+              <Columns classes={classes} />
+            </TableHead>
+            <TableBody component="div">
+              <List
+                className={classes.list}
+                height={height}
+                width={width}
+                itemCount={albums.length}
+                itemSize={getItemHeight}
+                itemData={itemData}
+              >
+                {Row}
+              </List>
+            </TableBody>
+          </div>
+        )}
+      </AutoSizer>
     </Table>
   ) : null;
 };
