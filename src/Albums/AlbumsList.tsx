@@ -10,7 +10,13 @@ import TableRow from "@material-ui/core/TableRow";
 
 const columns = [
   {
-    label: "Name",
+    label: "Artist",
+    dataKey: "im:artist",
+    type: "link"
+  },
+
+  {
+    label: "Album",
     dataKey: "im:name",
     type: "string"
   },
@@ -54,10 +60,15 @@ const Row = ({ index, style, data: { columns, items, classes } }) => {
       {columns.map((column, index) => {
         return (
           <TableCell component="div" key={index} className={classes.cell}>
-            {column.type === "image" ? (
+            {column.type === "image" && (
               <img src={album["im:image"][0].label} />
-            ) : (
-              album?.[column.dataKey]?.label
+            )}
+            {column.type === "string" && album?.[column.dataKey]?.label}
+            {column.type === "number" && album?.[column.dataKey]?.label}
+            {column.type === "link" && (
+              <a href={album?.[column.dataKey]?.attributes?.href}>
+                {album?.[column.dataKey]?.label}
+              </a>
             )}
           </TableCell>
         );
